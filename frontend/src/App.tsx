@@ -7,6 +7,7 @@ import MintNewWidget from "./components/MintNewWidget";
 import ListItem from "./components/ListItem";
 import PurchaseListing from "./components/PurchaseListing";
 import TakeProfits from "./components/TakeProfits";
+import MockModeToggle from "./components/MockModeToggle";
 
 // toastify libraries
 import { toast, ToastContainer } from "react-toastify";
@@ -16,73 +17,80 @@ import "react-toastify/dist/ReactToastify.css";
 import { WalletKitProvider, ConnectButton } from "@mysten/wallet-kit";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 
-function App() {
-  const [marketplaceId, setMarketplaceId] = useState("");
-  const [packageId, setPackageId] = useState("");
-  const [idsEntered, setIdsEntered] = useState(false);
-  const [accountAddress, setAccountAddress] = useState("");
-  const [ownedWidgets, setOwnedWidgets] = useState("");
-  const [widgetToList, setWidgetToList] = useState("");
-  const [price, setPrice] = useState("");
-  const [itemToPurchase, setItemToPurchase] = useState("");
-  const [listingInfo, setListingInfo] = useState("");
-  const [amountSent, setAmountSent] = useState("");
+// services
+import { blockchainService, MOCK_MODE } from "./services/blockchainService";
 
-  const handleMarketplaceIdInput = (event) => {
+// Types
+interface ListingInfo {
+  listingId: string;
+  askPrice: string;
+  owner: string;
+  widget: string;
+}
+
+function App() {
+  const [marketplaceId, setMarketplaceId] = useState<string>(
+    MOCK_MODE ? (import.meta.env.VITE_DEFAULT_MARKETPLACE_ID || "0x123marketplace456") : ""
+  );
+  const [packageId, setPackageId] = useState<string>(
+    MOCK_MODE ? (import.meta.env.VITE_DEFAULT_PACKAGE_ID || "0x123package456") : ""
+  );
+  const [idsEntered, setIdsEntered] = useState<boolean>(MOCK_MODE);
+  const [accountAddress, setAccountAddress] = useState<string>("");
+  const [ownedWidgets, setOwnedWidgets] = useState<string[]>([]);
+  const [widgetToList, setWidgetToList] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [itemToPurchase, setItemToPurchase] = useState<string>("");
+  const [listingInfo, setListingInfo] = useState<string[][]>([]);
+  const [amountSent, setAmountSent] = useState<string>("");
+
+  // Initialize blockchain service with default values in mock mode
+  React.useEffect(() => {
+    if (MOCK_MODE && packageId && marketplaceId) {
+      blockchainService.setPackageId(packageId);
+      blockchainService.setMarketplaceId(marketplaceId);
+    }
+  }, [packageId, marketplaceId]);
+
+  const handleMarketplaceIdInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMarketplaceId(event.target.value);
   };
 
-  const handlePackageIdInput = (event) => {
+  const handlePackageIdInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPackageId(event.target.value);
   };
 
   const handleSubmit = () => {
     if (marketplaceId.trim() !== "" && packageId.trim() !== "") {
       setIdsEntered(true);
+      // Configure blockchain service with IDs
+      blockchainService.setPackageId(packageId);
+      blockchainService.setMarketplaceId(marketplaceId);
     } else {
       alert("Please enter your PackageID and MarketplaceID");
     }
   };
 
-  const handleWidgetInput = (event) => {
+  const handleWidgetInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWidgetToList(event.target.value);
   };
 
-  const handlePriceInput = (event) => {
+  const handlePriceInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPrice(event.target.value);
   };
 
-  const handleItemToPurchaseInput = (event) => {
+  const handleItemToPurchaseInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setItemToPurchase(event.target.value);
   };
 
-  const handleAmountSentInput = (event) => {
+  const handleAmountSentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAmountSent(event.target.value);
   };
 
   const getOwnedWidgets = async () => {
     try {
-      const suiClient = new SuiClient({ url: getFullnodeUrl("devnet") });
-const objects = await suiClient.getOwnedObjects({ owner: accountAddress });
-const widgets = [];
-
-// iterate through all objects owned by address
-for (let i = 0; i < objects.data.length; i++) {
-  const currentObjectId = objects.data[i].data.objectId;
-
-  // get object information
-  const objectInfo = await suiClient.getObject({
-    id: currentObjectId,
-    options: { showContent: true },
-  });
-
-  if (objectInfo.data.content.type == `${packageId}::widget::Widget`) {
-    const widgetObjectId = objectInfo.data.content.fields.id.id;
-    console.log("widget spotted:", widgetObjectId);
-    widgets.push(widgetObjectId);
-  }
-}
-setOwnedWidgets(widgets);
+      const widgets = await blockchainService.getOwnedWidgets();
+      setOwnedWidgets(widgets);
 
       toast.success(`Successfully refreshed owned widgets!`, {
         position: toast.POSITION.TOP_LEFT,
@@ -103,48 +111,21 @@ setOwnedWidgets(widgets);
     await getOwnedWidgets();
   };
 
+  const handleLoadMockData = async () => {
+    if (MOCK_MODE) {
+      await getOwnedWidgets();
+      await getListingInformation();
+    }
+  };
+
   const afterMintingWidget = async () => {
     await getOwnedWidgets();
   };
 
   const getListingInformation = async () => {
     try {
-      const suiClient = new SuiClient({ url: getFullnodeUrl("devnet") });
-
-// get marketplace ID
-const marketplaceObject = await suiClient.getObject({
-  id: marketplaceId,
-  options: { showContent: true },
-});
-const marketplaceItemsId = marketplaceObject.data.content.fields.items.fields.id.id;
-
-// get marketplace items ID
-const marketplaceItems = await suiClient.getDynamicFields({ parentId: marketplaceItemsId });
-
-const listingIds = [];
-// get listing IDs - loop through and save IDs
-for (let i = 0; i < marketplaceItems.data.length; i++) {
-  listingIds.push(marketplaceItems.data[i].objectId);
-}
-
-const output = [];
-// iterate through all listings and populate output array
-for (let i = 0; i < listingIds.length; i++) {
-  const currentListing = [];
-  const listingObject = await suiClient.getObject({
-    id: listingIds[i],
-    options: { showContent: true },
-  });
-
-  // save relevant info into an array for displaying on frontend
-  currentListing.push(`listingId: ${listingIds[i]}`);
-  currentListing.push(`askPrice: ${listingObject.data.content.fields.value.fields.ask}`);
-  currentListing.push(`owner: ${listingObject.data.content.fields.value.fields.owner}`);
-  currentListing.push(`widget: ${listingObject.data.content.fields.name}`);
-  output.push(currentListing);
-}
-
-setListingInfo(output);
+      const output = await blockchainService.getListingInformation();
+      setListingInfo(output);
 
       toast.success(`Successfully refreshed listings!`, {
         position: toast.POSITION.TOP_LEFT,
@@ -159,6 +140,7 @@ setListingInfo(output);
   return (
     <WalletKitProvider>
       <ToastContainer />
+      <MockModeToggle onMockDataLoad={handleLoadMockData} />
       {!idsEntered ? (
         <div className="centered">
           <input type="text" value={packageId} onChange={handlePackageIdInput} placeholder="Enter PackageId" />
