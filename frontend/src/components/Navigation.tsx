@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Home, ShoppingBag, Package, Zap, Wallet, Menu, Globe } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 const Navigation = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const Navigation = () => {
   const NavLink = ({ href, label, icon: Icon, mobile = false }: {
     href: string;
     label: string;
-    icon: any;
+    icon: LucideIcon;
     mobile?: boolean;
   }) => (
     <Link
@@ -41,7 +42,7 @@ const Navigation = () => {
   );
 
   return (
-    <nav className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm bg-card/95">
+    <nav className="bg-card/95 border-b border-border sticky top-0 z-50 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
