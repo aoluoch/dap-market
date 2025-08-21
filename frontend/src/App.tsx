@@ -11,6 +11,7 @@ import MyListings from "./pages/MyListings";
 import MintWidget from "./pages/MintWidget";
 import WithdrawProfits from "./pages/WithdrawProfits";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <div className="min-h-screen flex flex-col">
           <Navigation />
           <main className="flex-1">

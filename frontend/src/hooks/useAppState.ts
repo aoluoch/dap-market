@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { AppState, Listing, Widget } from '@/types';
-import { INITIAL_LISTINGS, CURRENT_USER } from '@/data/mockData';
 import { toast } from '@/hooks/use-toast';
 
 export const useAppState = () => {
   const [state, setState] = useState<AppState>({
-    listings: INITIAL_LISTINGS,
+    listings: [],
     myListings: [],
     widgets: [],
     profits: 0,
@@ -15,16 +14,7 @@ export const useAppState = () => {
     const listing = state.listings.find(l => l.id === listingId);
     if (!listing) return;
 
-    if (listing.owner === CURRENT_USER) {
-      toast({
-        title: "Cannot buy your own listing",
-        description: "You cannot purchase items you've listed yourself.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const updatedListing = { ...listing, owner: CURRENT_USER, status: 'sold' as const };
+    const updatedListing = { ...listing, status: 'sold' as const };
     
     setState(prev => ({
       ...prev,

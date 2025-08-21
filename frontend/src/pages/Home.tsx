@@ -35,12 +35,12 @@ const Home = () => {
     <div className="bg-gradient-subtle">
       <div className="container mx-auto px-4 py-8 sm:py-16">
         <div className="text-center mb-8 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Marketplace DApp (Mock)
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-primary bg-clip-text text-transparent">
+            Marketplace DApp
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
-            Experience the future of decentralized marketplaces with our Sui Move simulator. 
-            Buy, sell, and mint unique digital widgets in a seamless mock environment.
+            Experience the future of decentralized marketplaces with our Sui Move interface.
+            Buy, sell, and mint unique digital widgets.
           </p>
           <div className="mt-6 sm:mt-8">
             <Button asChild size="lg" className="bg-gradient-primary hover:shadow-glow text-base sm:text-lg px-6 sm:px-8">
@@ -72,21 +72,6 @@ const Home = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        <div className="mt-8 sm:mt-16">
-          <Card className="bg-accent/50 border-accent">
-            <CardContent className="p-6 sm:p-8">
-              <h2 className="text-xl sm:text-2xl font-semibold text-foreground mb-3 sm:mb-4">
-                Built on Sui Move Technology
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
-                This frontend simulates the behavior of Sui Move smart contracts, 
-                demonstrating marketplace operations and NFT minting without blockchain connectivity. 
-                Perfect for testing and development purposes.
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

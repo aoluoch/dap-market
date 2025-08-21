@@ -47,8 +47,8 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Experience the future of decentralized marketplaces with our Sui Move simulator. 
-              A complete mock environment for testing marketplace operations.
+              Experience the future of decentralized marketplaces with our Sui Move interface.
+              Explore marketplace operations with a sleek frontend.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map(({ icon: Icon, href, label }) => (

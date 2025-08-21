@@ -8,20 +8,20 @@ const WithdrawProfits = () => {
 
   return (
     <div className="bg-gradient-subtle">
-      <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 text-center">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-            Withdraw Profits
+            Withdraw Profits.
           </h1>
           <p className="text-muted-foreground text-base sm:text-lg">
-            Manage your earnings from marketplace sales
+            Manage your earnings from marketplace sales.
           </p>
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <Card className="hover:shadow-elegant transition-all duration-300">
+          <Card className="hover:shadow-elegant transition-all duration-300 mx-auto">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+              <CardTitle className="flex items-center justify-center gap-2 text-lg sm:text-xl">
                 <Wallet className="text-primary" size={24} />
                 Available Balance
               </CardTitle>
@@ -71,16 +71,16 @@ const WithdrawProfits = () => {
             </CardContent>
           </Card>
 
-          <Card className="mt-4 sm:mt-6 bg-accent/50 border-accent">
+          <Card className="mt-4 sm:mt-6 bg-accent/50 border-accent mx-auto text-center">
             <CardContent className="p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2 text-center">
                 How It Works
               </h3>
-              <ul className="space-y-2 text-muted-foreground text-xs sm:text-sm">
+              <ul className="space-y-2 text-muted-foreground text-xs sm:text-sm text-center">
                 <li>• Profits accumulate when other users purchase your listings</li>
                 <li>• Each sale adds the item price to your available balance</li>
                 <li>• Withdraw anytime to reset your balance to zero</li>
-                <li>• All transactions are simulated in this mock environment</li>
+                <li>• Transactions are processed by the connected backend</li>
               </ul>
             </CardContent>
           </Card>
