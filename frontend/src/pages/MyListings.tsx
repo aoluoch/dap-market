@@ -7,13 +7,13 @@ const MyListings = () => {
   return (
     <div className="bg-gradient-subtle">
       <div className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-            My Listings
-          </h1>
-          <p className="text-muted-foreground text-base sm:text-lg">
-            Manage your owned items and active listings
-          </p>
+        <div className="mb-6 sm:mb-8 text-center max-w-2xl mx-auto px-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+                My Listings.
+            </h1>
+            <p className="text-muted-foreground text-base sm:text-lg">
+                Manage your owned items and active listings.
+            </p>
         </div>
 
         {state.myListings.length === 0 ? (

@@ -10,14 +10,15 @@ const MintWidget = () => {
   return (
     <div className="bg-gradient-subtle">
       <div className="container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-            Mint Widget
-          </h1>
-          <p className="text-muted-foreground text-base sm:text-lg">
-            Create unique widget NFTs on the Sui Move blockchain simulator
-          </p>
+        <div className="mb-6 sm:mb-8 text-center max-w-2xl mx-auto px-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+                Mint Widget.
+            </h1>
+            <p className="text-muted-foreground text-base sm:text-lg">
+                Create unique widget NFTs on the Sui Move blockchain simulator.
+            </p>
         </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           <Card className="hover:shadow-elegant transition-all duration-300">
